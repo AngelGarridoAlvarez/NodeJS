@@ -1,4 +1,4 @@
-## Ejemplo1. Probando funcionalidades de node.js
+## Ejemplo1 - Probando funcionalidades de node.js
 
 1. Crear una carpeta de trabajo (en mi caso ejercicio1_node_scripts)
 2. Crear archivo **ejemplo1_helloWorld.js**
@@ -16,7 +16,7 @@
  NodeJS en un S.O. abre posibilidades como escribir archivos o abrir servidores.
     
     
-## Ejemplo2. Script para escribir archivos - fs.writeFile
+## Ejemplo2 - fs.writeFile: Script para escribir archivos 
 
 1. Crear archivo 'ejemplo2_crearArchivo.js' 
 2. Crearemos una funcón usando el paquete 'fs' de node, el la que dado un array de objetos escriba un archivo .json :
@@ -60,7 +60,7 @@ Vemos como se ha creado el archivo en la ruta especificada
 Gracias a esta herramienta podemos crear archivos de forma automática, esto abre muchas posibilidades en combinación con el uso de APIs externas.
 
 
-## Ejemplo3. Crear un servidor HTTP
+## Ejemplo3 - Crear un servidor HTTP: http.createserver() y requestHandler
 
 Existen  paquetes preparados para abrir servidores:
 * http
@@ -116,4 +116,48 @@ Si marcamos en el terminal node ejemplo3_servidor.js y ponemos en nuestro navaga
 
 Ya tenemos un servidor que responde a nuestras peticiones abierto en node.js 💃
 
-## Ejemplo4. Leer archivos utilizando Node.js
+## Ejemplo4 - fs.readFile: Leer archivos utilizando Node.js
+
+* Crear archivo ejemplo4.js
+```jsx
+const fs = require('fs');
+// Leemos un archivo en la dirección dada y el callback es invocado cuando se termina de leer y procesar el archivo
+
+fs.readFile('jsonFiles/people.json', (err, data)=>{
+    if (err) {
+        //Si recibimos un error en el callback, lo mostraremos en la consola
+        console.log('WTF! there was an error reading the file! ¬_¬');
+    }else{
+        //Si obtenemos los datos y no un error, habtá wur transformar la información con JSON.parse() para mostrarla
+        const parseData = JSON.parse(data);
+        console.log(parseData);
+    }
+});
+```
+* node ejemplo4_leerArchivo.js 
+
+El código anterior fue modificado poniendo una ruta incorrecta para ver que sucedía en al consola al detectar un error, a continuación se puede ver la captura de pantalla de la consola con error y sin error:
+
+![image](src/Captura%20de%20pantalla%20de%202020-07-31%2016-31-06.png)
+
+##Ejemplo5 - utilizar endpoints en el servidor con req.url
+
+```jsx
+const fs = require('fs');
+
+// Leemos un archivo en la dirección dada y el callback es invocado cuando se termina de leer y procesar el archivo
+
+fs.readFile('jsonFiles/people.json', (err, data) => {
+    if (err) {
+        //Si recibimos un error en el callback, lo mostraremos en la consola
+        console.log('WTF! there was an error reading the file! ¬_¬');
+    }else{
+        //Si obtenemos los datos y no un error, habtá wur transformar la información con JSON.parse() para mostrarla
+        const parseData = JSON.parse(data);
+        console.log(parseData);
+    }
+});
+```
+![image](src/Captura%20de%20pantalla%20de%202020-07-31%2017-01-42.png)
+
+Ya podemos usar endpoints con node.js!
