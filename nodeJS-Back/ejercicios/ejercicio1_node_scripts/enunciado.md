@@ -143,19 +143,31 @@ El código anterior fue modificado poniendo una ruta incorrecta para ver que suc
 ##Ejemplo5 - utilizar endpoints en el servidor con req.url
 
 ```jsx
-const fs = require('fs');
+const http = require('http');
 
-// Leemos un archivo en la dirección dada y el callback es invocado cuando se termina de leer y procesar el archivo
-
-fs.readFile('jsonFiles/people.json', (err, data) => {
-    if (err) {
-        //Si recibimos un error en el callback, lo mostraremos en la consola
-        console.log('WTF! there was an error reading the file! ¬_¬');
-    }else{
-        //Si obtenemos los datos y no un error, habtá wur transformar la información con JSON.parse() para mostrarla
-        const parseData = JSON.parse(data);
-        console.log(parseData);
+const requestHandler = (req, res) => {
+    if(req.url === '/hello') {
+        res.setHeader('Content-Type','application/json');
+        res.writeHead(200);
+        res.end('Hello World from the route "/hello"');
     }
+
+    else if(req.url === '/byebye') {
+        res.setHeader('Content-Type', 'application/json');
+        res.writeHead(200);
+        res.end('Bye from the route "/byebye"');
+    }
+
+    else{
+        res.end(`Try to use localhost:${PORT}/hello in the navbar`)
+    }
+};
+
+const PORT = 3000;
+const server = http.createServer(requestHandler);
+
+server.listen(PORT, () => {
+    console.log(`Hello!!! Server started in http//localhost:${PORT}`);
 });
 ```
 ![image](src/Captura%20de%20pantalla%20de%202020-07-31%2017-01-42.png)
