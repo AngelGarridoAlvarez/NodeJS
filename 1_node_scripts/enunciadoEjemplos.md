@@ -51,11 +51,11 @@
    ```
 3. ejecutamos en el terminal 'node ejemplo2_crearArchivo.js'
 
-![image](src/Captura%20de%20pantalla%20de%202020-07-31%2013-07-23.png)
+![image](src/Captura de pantalla de 2020-07-31 13-07-23.png)
 
 Vemos como se ha creado el archivo en la ruta especificada
 
-![image](src/Captura%20de%20pantalla%20de%202020-07-31%2013-18-06.png)
+![image](src/Captura de pantalla de 2020-07-31 13-18-06.png)
 
 Gracias a esta herramienta podemos crear archivos de forma automática, esto abre muchas posibilidades en combinación con el uso de APIs externas.
 
@@ -112,7 +112,7 @@ server.listen(PORT, ()=>{
 
 Si marcamos en el terminal node ejemplo3_servidor.js y ponemos en nuestro navagador http://localhost:3000/ veremos el mesaje que se está lanzando desde el servidor que hemos creado:
 
-![image](src/Captura%20de%20pantalla%20de%202020-07-31%2015-56-46.png);
+![image](src/Captura de pantalla de 2020-07-31 15-56-46.png);
 
 Ya tenemos un servidor que responde a nuestras peticiones abierto en node.js 💃
 
@@ -138,7 +138,7 @@ fs.readFile('jsonFiles/people.json', (err, data)=>{
 
 El código anterior fue modificado poniendo una ruta incorrecta para ver que sucedía en al consola al detectar un error, a continuación se puede ver la captura de pantalla de la consola con error y sin error:
 
-![image](src/Captura%20de%20pantalla%20de%202020-07-31%2016-31-06.png)
+![image](src/Captura de pantalla de 2020-07-31 16-31-06.png)
 
 ##Ejemplo5 - utilizar endpoints en el servidor con req.url
 
@@ -170,6 +170,6 @@ server.listen(PORT, () => {
     console.log(`Hello!!! Server started in http//localhost:${PORT}`);
 });
 ```
-![image](src/Captura%20de%20pantalla%20de%202020-07-31%2017-01-42.png)
+![image](src/Captura de pantalla de 2020-07-31 17-01-42.png)
 
 Ya podemos usar endpoints con node.js!
