@@ -140,7 +140,7 @@ El código anterior fue modificado poniendo una ruta incorrecta para ver que suc
 
 ![image](src/Captura de pantalla de 2020-07-31 16-31-06.png)
 
-##Ejemplo5 - utilizar endpoints en el servidor con req.url
+## Ejemplo5 - utilizar endpoints en el servidor con req.url
 
 ```jsx
 const http = require('http');
