@@ -22,19 +22,6 @@
     <list default="true" id="408f99e5-106f-4ec9-a377-b5af30423d05" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ejercicios/ejercicio1_node_scripts/ejemplo1_helloWorld.js" beforeDir="false" afterPath="$PROJECT_DIR$/1_node_scripts/ejemplo1_helloWorld.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ejercicios/ejercicio1_node_scripts/ejemplo2_crearArchivo.js" beforeDir="false" afterPath="$PROJECT_DIR$/1_node_scripts/ejemplo2_crearArchivo.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ejercicios/ejercicio1_node_scripts/ejemplo3_servidor.js" beforeDir="false" afterPath="$PROJECT_DIR$/1_node_scripts/ejemplo3_servidor.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ejercicios/ejercicio1_node_scripts/ejemplo4_leerArchivo.js" beforeDir="false" afterPath="$PROJECT_DIR$/1_node_scripts/ejemplo4_leerArchivo.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ejercicios/ejercicio1_node_scripts/ejemplo5_routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/1_node_scripts/ejemplo5_endpoints.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ejercicios/ejercicio1_node_scripts/enunciado.md" beforeDir="false" afterPath="$PROJECT_DIR$/1_node_scripts/enunciadoEjemplos.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ejercicios/ejercicio1_node_scripts/jsonFiles/people.json" beforeDir="false" afterPath="$PROJECT_DIR$/1_node_scripts/jsonFiles/people.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ejercicios/ejercicio1_node_scripts/src/Captura de pantalla de 2020-07-31 11-09-44.png" beforeDir="false" afterPath="$PROJECT_DIR$/1_node_scripts/src/Captura de pantalla de 2020-07-31 11-09-44.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ejercicios/ejercicio1_node_scripts/src/Captura de pantalla de 2020-07-31 13-07-23.png" beforeDir="false" afterPath="$PROJECT_DIR$/1_node_scripts/src/Captura de pantalla de 2020-07-31 13-07-23.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ejercicios/ejercicio1_node_scripts/src/Captura de pantalla de 2020-07-31 13-18-06.png" beforeDir="false" afterPath="$PROJECT_DIR$/1_node_scripts/src/Captura de pantalla de 2020-07-31 13-18-06.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ejercicios/ejercicio1_node_scripts/src/Captura de pantalla de 2020-07-31 15-56-46.png" beforeDir="false" afterPath="$PROJECT_DIR$/1_node_scripts/src/Captura de pantalla de 2020-07-31 15-56-46.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ejercicios/ejercicio1_node_scripts/src/Captura de pantalla de 2020-07-31 16-31-06.png" beforeDir="false" afterPath="$PROJECT_DIR$/1_node_scripts/src/Captura de pantalla de 2020-07-31 16-31-06.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ejercicios/ejercicio1_node_scripts/src/Captura de pantalla de 2020-07-31 17-01-42.png" beforeDir="false" afterPath="$PROJECT_DIR$/1_node_scripts/src/Captura de pantalla de 2020-07-31 17-01-42.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +45,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="javascript.nodejs.core.library.configured.version" value="10.19.0" />
     <property name="javascript.nodejs.core.library.typings.version" value="10.17.28" />
-    <property name="last_opened_file_path" value="$USER_HOME$/bootcamp/Javacript" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RecentsManager">
@@ -85,7 +72,9 @@
       <workItem from="1596185612017" duration="18985000" />
       <workItem from="1596456569537" duration="55000" />
       <workItem from="1596456631673" duration="23000" />
-      <workItem from="1596456655652" duration="3729000" />
+      <workItem from="1596456655652" duration="4648000" />
+      <workItem from="1596525300458" duration="28000" />
+      <workItem from="1597041815000" duration="840000" />
     </task>
     <task id="LOCAL-00001" summary="eliminada instalación de nodeJS para empezar desde 0">
       <created>1595944990051</created>
@@ -123,9 +112,17 @@
       <screen x="1536" y="0" width="1920" height="1080" />
     </state>
     <state x="2196" y="325" width="596" height="402" key="#com.intellij.fileTypes.FileTypeChooser/1536.0.1920.1080/3456.0.1920.1080/0.27.1536.837@1536.0.1920.1080" timestamp="1596206405138" />
-    <state x="2282" y="258" width="424" height="496" key="FileChooserDialogImpl" timestamp="1596463454570">
+    <state x="2282" y="243" width="424" height="496" key="FileChooserDialogImpl" timestamp="1596490096423">
       <screen x="1536" y="0" width="1920" height="1080" />
     </state>
-    <state x="2282" y="258" width="424" height="496" key="FileChooserDialogImpl/1536.0.1920.1080/3456.0.1920.1080/0.27.1536.837@1536.0.1920.1080" timestamp="1596463454570" />
+    <state x="2282" y="243" width="424" height="496" key="FileChooserDialogImpl/1536.0.1920.1080/3456.0.1920.1080/0.27.1536.837@1536.0.1920.1080" timestamp="1596490096423" />
+    <state x="1724" y="82" width="1536" height="906" key="MergeDialog" timestamp="1596464911993">
+      <screen x="1536" y="0" width="1920" height="1080" />
+    </state>
+    <state x="1724" y="82" width="1536" height="906" key="MergeDialog/1536.0.1920.1080/3456.0.1920.1080/0.27.1536.837@1536.0.1920.1080" timestamp="1596464911993" />
+    <state x="2133" y="284" width="722" height="483" key="MultipleFileMergeDialog" timestamp="1596464912006">
+      <screen x="1536" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2133" y="284" width="722" height="483" key="MultipleFileMergeDialog/1536.0.1920.1080/3456.0.1920.1080/0.27.1536.837@1536.0.1920.1080" timestamp="1596464912006" />
   </component>
 </project>
