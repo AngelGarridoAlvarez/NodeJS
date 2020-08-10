@@ -9,7 +9,7 @@
     * escribir en el terminal 'node ejemplo1_helloWorld.js'
     
     * La consola debería mostrar:
-    ![img](src/Captura de pantalla de 2020-07-31 11-09-44.png)
+    ![img](src/Captura2020-07-31-11-09-44.png)
     
   Esto significa que estamos lanzando scripts directamente en nuestro S.O. que antes de nodejs solo se podían ejecutar a través del navegador.
     
@@ -51,11 +51,11 @@
    ```
 3. ejecutamos en el terminal 'node ejemplo2_crearArchivo.js'
 
-![img](src/Captura de pantalla de 2020-07-31 13-07-23.png)
+![img](src/Captura2020-07-31-13-07-23.png)
 
 Vemos como se ha creado el archivo en la ruta especificada
 
-![img](src/Captura de pantalla de 2020-07-31 13-18-06.png)
+![img](src/Captura2020-07-31-13-18-06.png)
 
 Gracias a esta herramienta podemos crear archivos de forma automática, esto abre muchas posibilidades en combinación con el uso de APIs externas.
 
@@ -112,7 +112,7 @@ server.listen(PORT, ()=>{
 
 Si marcamos en el terminal node ejemplo3_servidor.js y ponemos en nuestro navagador http://localhost:3000/ veremos el mesaje que se está lanzando desde el servidor que hemos creado:
 
-![img](src/Captura de pantalla de 2020-07-31 15-56-46.png);
+![img](src/Captura2020-07-31-15-56-46.png);
 
 Ya tenemos un servidor que responde a nuestras peticiones abierto en node.js 💃
 
@@ -138,7 +138,7 @@ fs.readFile('jsonFiles/people.json', (err, data)=>{
 
 El código anterior fue modificado poniendo una ruta incorrecta para ver que sucedía en al consola al detectar un error, a continuación se puede ver la captura de pantalla de la consola con error y sin error:
 
-![img](src/Captura de pantalla de 2020-07-31 16-31-06.png)
+![img](src/Captura2020-07-31-16-31-06.png)
 
 ## Ejemplo5 - utilizar endpoints en el servidor con req.url
 
@@ -170,6 +170,6 @@ server.listen(PORT, () => {
     console.log(`Hello!!! Server started in http//localhost:${PORT}`);
 });
 ```
-![img](src/Captura de pantalla de 2020-07-31 17-01-42.png)
+![img](src/Captura2020-07-31-17-01-42.png)
 
 Ya podemos usar endpoints con node.js!
