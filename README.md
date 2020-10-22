@@ -1,4 +1,4 @@
-# nodeJS
+# NodeJS
 
 Este repositorio está compuesto por resúmenes teóricos y ejercicios prácticos que he utilizado para reforzar mis conocimientos de nodeJS.
 
@@ -18,8 +18,8 @@ Todo el contenido ha sido modificado para facilitar su comprensión, y en muchos
 6. [Capturar parámetros con process.argv.slice()](#id6)
 7. [Creando un Backend - API REST](#id7)
     
-    7.1 [Instalar dependencias](#id7.1)
-    7.2 [Crear una base de datos en Mongo](#id7.2)
+    * 7.1 [Instalar dependencias](#id7.1)
+    * 7.2 [Crear una base de datos en Mongo](#id7.2)
     7.3 [Conectar NodeJs con MongoDB](#id7.3)
     7.4 [Crear servidor con NodeJS - Express](#id7.4)
     7.5 [Usar un cliente RESTful](#7.5)
