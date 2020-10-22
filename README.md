@@ -21,7 +21,7 @@ Todo el contenido ha sido modificado para facilitar su comprensión, y en muchos
     * 7.2 [Crear una base de datos en Mongo](#id7.2)
     * 7.3 [Conectar NodeJs con MongoDB](#id7.3)
     * 7.4 [Crear servidor con NodeJS - Express](#id7.4)
-    * 7.5 [Usar un cliente RESTful](#7.5)
+    * 7.5 [Postman: Usar un cliente RESTful](#7.5)
     * 7.6 [Crear modelos](#7.6)
     * 7.7 [MVC - Modelo Vista Controlador](#id7.7)
 
@@ -369,7 +369,7 @@ Tenemos que actualizar nuestro package.json y añadir dentro de scripts la sigui
 Ya puedo hacer consultas y visualizarlas en formato gráfico o en JSON si pulso sobre el icono correspondiente en la parte superior derecha de la ventana.
 ![img](img/3.png)
 
-## 7.3. Conectar NodeJs con MongoDB<a name="id7.3"></a>
+### 7.3. Conectar NodeJs con MongoDB<a name="id7.3"></a>
 
 **backend/index.js**
 ```js
@@ -394,7 +394,7 @@ Terminal --> Carpeta Backend:
 * Se ejecuta el script start que va a hacer un nodemon con el index.js
 * Comprobamos si mi node.js se conecta con MongoDB
 
-## 7.4 Crear servidor con NodeJS - Express <a name="id7.4"></a>
+### 7.4 Crear servidor con NodeJS - Express <a name="id7.4"></a>
 **Express** nos permite:
 * Tener un sistema de rutas
 * Realizar peticiones HTTP
@@ -473,11 +473,86 @@ mongoose.connect('mongodb://localhost:27017/portafolio')
 
 module.exports.puerto = port;//para usar la variable puerto en otro app.js
 ```
+Podemos comprobar las rutas:
+* En el terminal, en la carpeta backend/ --> npm start
+* navegador --> localhost:3700 y http://localhost:3700/test
 
+### 7.5 POSTMAN: Usar un cliente RESTful <a name="id7.5"></a>
 
-## 7.5 Usar un cliente RESTful <a name="id7.5"></a>
-## 7.6 Crear modelos <a name="id7.6"></a>
-## 7.7 MVC - Modelo Vista Controlador <a name="id7.7"></a>
+* Al ser un servicio REST los envíos de datos y las respuestas de datos van a ir en JSON
+* Vamos a trabajar con los diferentes métodos(get, post, put, delete,...) que existen en el prótocolo http
+* Para testear de manera sencilla lo que vamos a hacer ahora vamos a usar [Postman](https://www.postman.com/downloads/) (un cliente RESTFUL)
+![Postman](./img/Postman.png)
+
+Los métodos más usados:
+* GET: pedir información
+* POST: guardar información
+* PUT: actualizar información
+* DELETE: Borrar información
+
+En la imagen superior, hemos utilizado GET, si utilizaramos POST no nos daría ningún resultado, ya que no hemos creado ninguna ruta para POST
+
+Recordamos las rutas que hemos creado que incluyen el método get:
+
+**backend/app.js**
+```jsx
+//...
+//RUTAS
+
+//Creo la ruta test para probar el funcionamiento mandando un JSON como mensaje
+app.get('/test', (req,res) => {
+    res.status(200).send({
+        message: "Hello World from my NodeJS API"
+    });
+    //si recibo una res estatus 200 (exitosa) envío el mensaje
+});
+
+app.get('/', (req,res) => {
+    res.status(200).send("<h1>Pagina de inicio, prueba la ruta localhost:"+ index.puerto + "/test</h1>")
+   });
+//...
+```
+
+Creamos una ruta para poder probar el método post
+```jsx
+app.post('/rutaPost', (req,res) => {
+    res.status(200).send({
+        message: "This is the Post Route"
+    });
+});
+```
+![método Post](./img/Postman2.png)
+
+Con el método POST podemos pasar información:
+* En el apartado body
+* En la barra de navegación de postman
+
+```jsx
+app.post('/rutaPost', (req,res) => {
+    res.status(200).send({
+        message: "This is the Post Route"
+    });
+});
+```
+![método Post3](./img/Postman3.png)
+
+* Creamos la ruta "rutaPostConParam:id" para pasar parámetros obligatorios: añadimos al final de la ruta ":nombreParametro" en este caso "id"
+```jsx
+app.post('/rutaPostConParam:id', (req,res) => {
+    console.log(req.body.id);//Para que me muestre el parámetro obligatorio que he pasado por la barra de direcciones
+
+    //Ponemos en POSTMAN http://localhost:3700/rutaPostConParam:1982
+    res.status(200).send({
+        message: "This is the Post Route and the chosen param is '" +req.params.id+"'"
+    });
+});
+```
+* Ponemos en POSTMAN http://localhost:3700/rutaPostConParam:1982
+
+![método Post4](./img/Postman4.png)
+
+### 7.6 Crear modelos <a name="id7.6"></a>
+### 7.7 MVC - Modelo Vista Controlador <a name="id7.7"></a>
 
 ## 8. <a name="id8"></a>
 ## 9. <a name="id9"></a>

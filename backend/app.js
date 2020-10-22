@@ -31,6 +31,33 @@ app.get('/test', (req,res) => {
 app.get('/', (req,res) => {
     res.status(200).send("<h1>Pagina de inicio, prueba la ruta localhost:"+ index.puerto + "/test</h1>")
    });
+//Creamos una ruta para poder probar el método post
+
+app.post('/rutaPost', (req,res) => {
+    console.log(req.body.Name);//Para que me muestre la información que paso por el método post en postman
+
+    //también puedo pasar información por manualmente en la barra de direcciones de postman, añadiendo a la ruta "?para=valor"
+    //Podemos probar poniendo en POSTMAN http://localhost:3700/rutaPost?web=www.angelputoamo.com
+    res.status(200).send({
+        message: "This is the Post Route and the chosen param is '" +req.body.Name+"' y el parámetro que he pasado manualmente por la barra de POSTMAN y que he recogido con query es '" + req.query.web + "'"
+    });
+});
+
+//Creamos una ruta para pasar parámetros obligatorios: añadimos al final de la ruta ":nombreParametro"
+
+app.post('/rutaPostConParam:id', (req,res) => {
+    console.log(req.body.id);//Para que me muestre el parámetro obligatorio que he pasado por la barra de direcciones
+
+    //Ponemos en POSTMAN http://localhost:3700/rutaPostConParam:1982
+    res.status(200).send({
+        message: "This is the Post Route and the chosen param is '" +req.params.id+"'"
+    });
+});
+
+
+
+
+
 
 // exportar
 module.exports = app;//exporto la variable app que tiene express y toda la configuración de los middleware
