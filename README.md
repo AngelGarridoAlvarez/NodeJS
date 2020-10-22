@@ -17,12 +17,13 @@ Todo el contenido ha sido modificado para facilitar su comprensión, y en muchos
 5. [Utilizar endpoints en el servidor con req.url](#id5)
 6. [Capturar parámetros con process.argv.slice()](#id6)
 7. [Creando un Backend - API REST](#id7)
-    * Dependencias: express, body-parser, connect-multiparty, mongoose, nodemon
-    * Conectar Mongo
-    * Cliente RESTful
-    * Crear modelos
-    * Modelo Vista Controlador - MVC
-8. [Crear una base de datos en Mongo](#id8)
+    7.1 [Instalar dependencias](#id7.1)
+    7.2 [Crear una base de datos en Mongo](#id7.2)
+    7.3 [Conectar NodeJs con MongoDB](#id7.3)
+    7.4 [Crear servidor con NodeJS - Express](#id7.4)
+    7.5 [Usar un cliente RESTful](#7.5)
+    7.6 [Crear modelos](#7.6)
+    7.7 [MVC - Modelo Vista Controlador](#id7.7)
 
 ## 0. Node.js: JavaScript en el servidor
 
@@ -273,7 +274,7 @@ npm install mongoose --save
 npm install nodemon --save-dev
 ```
 
-### 7.1. **API REST**
+#### Definición **API REST**
 * Programa o servicio que está en el backend
 * nos permite recibir peticiones http por los diferentes métodos que acepta el protocolo http:
     * POST
@@ -282,7 +283,7 @@ npm install nodemon --save-dev
     * DELETE
 * Estas peticiones interactúan con la BBDD y nos devuelve un resultado en formato json.
 
-### 7.2. Pasos para crear nuestra API REST
+#### Primeros Pasos para crear nuestra API REST
 
 * Me voy a mi carpeta del proyecto (en este caso creo la carpeta backend) desde el terminal y ejecuto el comando:
 ```shell script
@@ -295,7 +296,7 @@ npm init
     * hay que poner que archivo va a ser el inicial
     * en mi caso index.js
     
-### 7.3. Instalar dependencias
+### 7.1. Instalar dependencias  <a name="id7.2"></a>
 * Dependencias necesarias para que funcione el proyecto
 * NodeJS es una plataforma
     * Para que funcione como si un framework y añadir funcionalidades como conectarse a MongoDB hay que instalar dependencias:
@@ -345,8 +346,9 @@ Tenemos que actualizar nuestro package.json y añadir dentro de scripts la sigui
 //...
 ```
 
-## 8. Crear una base de datos en Mongo <a name="id8"></a>
+### 7.2. Crear una base de datos en Mongo <a name="id7.2"></a>
 
+* Previamente tenemos que tener instalado [MongoDB](https://github.com/AngelGarridoAlvarez/Mongo#id2)
 * Tenemos que tener abierto el "daemon" de mongo:
     * Programa\MongoDB\Server\4.4\Bin\mongod.exe
 * Abrir Robo3T, y con nuestra configuración ya creada, elegimos la BBDD a la que nos vamos a conectar (en nuestro caso MongoDB-Local) y pulsamos 'Connect'.
@@ -366,3 +368,118 @@ Tenemos que actualizar nuestro package.json y añadir dentro de scripts la sigui
 
 Ya puedo hacer consultas y visualizarlas en formato gráfico o en JSON si pulso sobre el icono correspondiente en la parte superior derecha de la ventana.
 ![img](img/3.png)
+
+## 7.3. Conectar NodeJs con MongoDB<a name="id7.3"></a>
+
+**backend/index.js**
+```js
+'use strict'
+
+let mongoose = require('mongoose');
+//cargo el módulo mongoose
+//Ya tengo un objeto en la variable mongoose
+
+//Realizamos la conexión a la base de datos mediante una promesa
+
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://localhost:27017/portafolio')
+// el local host es el predefinido de mongo que nosotros hemos seteado cuando hemos creado la BBDD
+    .then(()=>{
+        console.log('Conexión a la BBDD de Mongo establecida con éxito')
+    })
+    .catch(err => console.log(err));//Para capturar el error
+```
+Terminal --> Carpeta Backend:
+* npm start
+* Se ejecuta el script start que va a hacer un nodemon con el index.js
+* Comprobamos si mi node.js se conecta con MongoDB
+
+## 7.4 Crear servidor con NodeJS - Express <a name="id7.4"></a>
+**Express** nos permite:
+* Tener un sistema de rutas
+* Realizar peticiones HTTP
+
+creamos el archivo **backend/app.js** para configurar express:
+```js
+//En este archivo vamos a configurar Express
+'use strict'
+
+var express = require('express');//accede a la carpeta correspondiente de node_modules para usar esta librería
+var bodyParser = require('body-parser');
+var index = require("./index"); //Me importo index para poder usar directamente la variable puerto que he exportado en este archivo
+
+var app = express();
+
+//Rutas
+
+//Middlewares:
+// * métodos que se ejecutan antes de ejecutar la acción de un controlador/ el resultado de la petición
+// * Primero se ejecuta el middleware, luego la funcionalidad principal de la ruta en la que estemos
+
+app.use(bodyParser.urlencoded({extended: false}));//configuración necesaria para bodyParser
+app.use(bodyParser.json());//Lo que me llegue hay que convertirlo a JSON
+
+//CORS
+
+//RUTAS
+
+//Creo la ruta test para probar el funcionamiento mandando un JSON como mensaje
+app.get('/test', (req,res) => {
+    res.status(200).send({
+        message: "Hello World from my NodeJS API"
+    });
+    //si recibo una res estatus 200 (exitosa) envío el mensaje
+});
+
+app.get('/', (req,res) => {
+    res.status(200).send("<h1>Pagina de inicio, prueba la ruta localhost:"+ index.puerto + "/test</h1>")
+   });
+
+// exportar
+module.exports = app;//exporto la variable app que tiene express y toda la configuración de los middleware
+```
+
+Para crear el servidor lo hago desde index.js
+* Cargo la configuración de express que acabo de crear
+* Creo la variable port para indicar el puerto del servidor
+* Cuándo se conecte a la base de datos, creo el servidor e indico dentro del .then correspondiente
+    * app.listen(port, callback)
+
+**backend/index.js**
+```js
+'use strict'
+
+let mongoose = require('mongoose');
+var app = require('./app');
+var port = 3700;
+//cargo el módulo mongoose
+//Ya tengo un objeto en la variable mongoose
+
+//Realizamos la conexión a la base de datos mediante una promesa
+
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://localhost:27017/portafolio')
+// el local host es el predefinido de mongo que nosotros hemos seteado cuando hemos creado la BBDD
+    .then(()=>{
+        console.log('Conexión a la BBDD de Mongo establecida con éxito');
+
+        //Creación del servidor
+        app.listen(port, () => {
+           console.log("Servidor is working properly in localhost:"+port);
+        });
+
+    })
+    .catch(err => console.log(err));//Para capturar el error
+
+module.exports.puerto = port;//para usar la variable puerto en otro app.js
+```
+
+
+## 7.5 Usar un cliente RESTful <a name="id7.5"></a>
+## 7.6 Crear modelos <a name="id7.6"></a>
+## 7.7 MVC - Modelo Vista Controlador <a name="id7.7"></a>
+
+## 8. <a name="id8"></a>
+## 9. <a name="id9"></a>
+## 10. <a name="id10"></a>
+## 11.  <a name="id11"></a>
