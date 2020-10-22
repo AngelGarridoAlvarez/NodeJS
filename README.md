@@ -529,8 +529,12 @@ Con el método POST podemos pasar información:
 
 ```jsx
 app.post('/rutaPost', (req,res) => {
+    console.log(req.body.Name);//Para que me muestre la información que paso por el método post en postman
+
+    //también puedo pasar información por manualmente en la barra de direcciones de postman, añadiendo a la ruta "?para=valor"
+    //Podemos probar poniendo en POSTMAN http://localhost:3700/rutaPost?web=www.angelputoamo.com
     res.status(200).send({
-        message: "This is the Post Route"
+        message: "This is the Post Route and the chosen param is '" +req.body.Name+"' y el parámetro que he pasado manualmente por la barra de POSTMAN y que he recogido con query es '" + req.query.web + "'"
     });
 });
 ```
