@@ -21,7 +21,7 @@ Todo el contenido ha sido modificado para facilitar su comprensión, y en muchos
     * 7.2 [Crear una base de datos en Mongo](#id7.2)
     * 7.3 [Conectar NodeJs con MongoDB](#id7.3)
     * 7.4 [Crear servidor con NodeJS - Express](#id7.4)
-    * 7.5 [Postman: Usar un cliente RESTful](#7.5)
+    * 7.5 [Postman: Usar un cliente RESTful](#id7.5)
     * 7.6 [Crear modelos](#7.6)
     * 7.7 [MVC - Modelo Vista Controlador](#id7.7)
     
