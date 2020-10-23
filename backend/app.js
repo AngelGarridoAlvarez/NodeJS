@@ -7,7 +7,8 @@ var index = require("./index"); //Me importo index para poder usar directamente 
 
 var app = express();
 
-//Rutas
+//Cargar Archivos de Rutas - aquí vamos a importar archivos de rutas para poder utilizarlos en el apartado inferior RUTAS
+var project_routes = require('./routes/project'); //me traigo el objeto donde tengo mis rutas a project_routes y puedo utilizarlo
 
 //Middlewares:
 // * métodos que se ejecutan antes de ejecutar la acción de un controlador/ el resultado de la petición
@@ -19,6 +20,9 @@ app.use(bodyParser.json());//Lo que me llegue hay que convertirlo a JSON
 //CORS
 
 //RUTAS
+
+app.use('/api', project_routes); //uso este middleware para añadir api/ a las rutas de project_routes
+
 
 //Creo la ruta test para probar el funcionamiento mandando un JSON como mensaje
 app.get('/test', (req,res) => {
@@ -53,10 +57,6 @@ app.post('/rutaPostConParam:id', (req,res) => {
         message: "This is the Post Route and the chosen param is '" +req.params.id+"'"
     });
 });
-
-
-
-
 
 
 // exportar

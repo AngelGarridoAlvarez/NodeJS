@@ -24,6 +24,9 @@ Todo el contenido ha sido modificado para facilitar su comprensión, y en muchos
     * 7.5 [Postman: Usar un cliente RESTful](#7.5)
     * 7.6 [Crear modelos](#7.6)
     * 7.7 [MVC - Modelo Vista Controlador](#id7.7)
+    
+8. [El controlador del backend de Node](#id8)
+
 
 ## 0. Node.js: JavaScript en el servidor
 
@@ -410,7 +413,7 @@ var index = require("./index"); //Me importo index para poder usar directamente 
 
 var app = express();
 
-//Rutas
+//Archivos de Rutas - aquí vamos a importar archivos de rutas para poder utilizarlos en el apartado inferior RUTAS
 
 //Middlewares:
 // * métodos que se ejecutan antes de ejecutar la acción de un controlador/ el resultado de la petición
@@ -595,7 +598,97 @@ module.exports = mongoose.model('Project', ProjectSchema)
 
 ### 7.7 MVC - Modelo Vista Controlador <a name="id7.7"></a>
 
-## 8. <a name="id8"></a>
+* Es un patrón de diseño de software que se encarga de separar la lógica de negocio de la entidad del usuario
+* Es una manera de organizar el código
+    * Facilita mantenimiento, escalabilidad
+
+Vamos a organizar la arquitectura de nuestra aplicación (métodos, rutas, etc.) con el MVC
+
+![MVC](img/MVC.png) [fuente](https://seguridad.cicese.mx/dutic/23/Porque-utilizar-Modelo-Vista-Controlador-(MVC)-en-tus-proyectos)
+
+**MODELO** es la lógica de negocio / la parte que se conecta directamente a la BBDD
+* Hay dos tipos de modelos:
+    * Como el nuestro: es una entidad que se utiliza para almacenar y hacer consultas en la BBDD
+    * Modelos de consultas:
+        * Clases en las que tenemos diferentes métodos que acceden a la BBDD y hacen una lógica o proceso de datos que se le devuelve a al controlador
+
+**VISTA**
+* Encargada de mostrar la info al usuario
+* Al ser una API rest nuestra vista serán los JSON que se devuelvan al cliente que haga la petición
+
+**CONTROLADOR**
+* Intermediario vista/modelo
+* Controla las peticiones http (interacciones del usuario)
+* Pide los datos al modelo, devuelve info por JSON y hace la lógica referente a las peticiones
+
+## 8. El controlador del backend de Node <a name="id8"></a>
+
+* Creamos una carpeta controllers para nuestros controladores
+* Creamos nuestro controlador project.js
+    * Podemos hacer un objeto json directamente o hacer funciones que nos devuelvan json
+
+**backend/controllers/project.js**
+```js 
+'use strict'
+
+//* Podemos hacer un objeto json directamente o hacer funciones que nos devuelvan json
+//* En este caso hacemos un json que incorpora funciones dentro
+
+var controller = {
+    home: function(req, res){
+        return res.status(200).send({
+            message: 'Soy la home'
+        })
+    },
+    test: function (req, res){
+        return res.status(200).send({
+            message: 'Soy el método o acción test del controlador del project'
+        });
+
+    }
+};
+
+module.exports = controller; //ahora con require me puedo importar mi controlador en otros archivos
+```
+
+**Creando rutas**
+* Lo más recomendables es crear un fichero de rutas para cada uno de los controlador
+* Creamos una carpeta par meter todas las rutas
+* Creamos nuestro fichero de rutas para nuestro controlador project:
+
+**backend/routes/project.js**
+```js
+'use strict'
+
+var express = require('express'); //Cargo el módulo de express para crear mis propias rutas
+var ProjectController = require('../controllers/project') //Cargo el controlador que me he hecho
+
+var router = express.Router(); //Cargo este servicio de express que me sirve tiene diferentes métodos para acceder a las rutas
+
+router.get('/home', ProjectController.home); //Paso el nombre de la ruta y el método al que quiero que acceda de mi controlador en esa ruta
+router.post('/test2', ProjectController.test)
+
+module.exports = router; //exporto router para poder utilizar mi configuración de rutas fuera de aquí
+```
+Cargo mi archivo de rutas en app.js
+    *  me traigo el objeto donde tengo mis rutas a project_routes y puedo utilizarlo
+```jsx
+//...
+var project_routes = require('./routes/project');
+//...
+```
+
+Establezco un middleware dentro de mis rutas para que cargue el fichero de rutas que he hecho añadiendo adicionalmente la ruta api/ como prefijo de las rutas establecidas en el fichero.
+
+**app.js**
+```jsx
+//...
+app.use('/api', project_routes);
+//...
+```
+
+![postman5](img/Postman5.png)
+
 ## 9. <a name="id9"></a>
 ## 10. <a name="id10"></a>
 ## 11.  <a name="id11"></a>
