@@ -26,6 +26,8 @@ Todo el contenido ha sido modificado para facilitar su comprensión, y en muchos
     * 7.7 [MVC - Modelo Vista Controlador](#id7.7)
     
 8. [El controlador del backend de Node](#id8)
+    * [8.1. Controladores y Rutas en Node](#id8.1)
+
 
 
 ## 0. Node.js: JavaScript en el servidor
@@ -622,6 +624,8 @@ Vamos a organizar la arquitectura de nuestra aplicación (métodos, rutas, etc.)
 * Pide los datos al modelo, devuelve info por JSON y hace la lógica referente a las peticiones
 
 ## 8. El controlador del backend de Node <a name="id8"></a>
+
+### 8.1. Controladores y Rutas en Node <a name="id8.1"></a>
 
 * Creamos una carpeta controllers para nuestros controladores
 * Creamos nuestro controlador project.js
