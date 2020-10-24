@@ -26,9 +26,17 @@ Todo el contenido ha sido modificado para facilitar su comprensión, y en muchos
     * 7.7 [MVC - Modelo Vista Controlador](#id7.7)
     
 8. [El controlador del backend de Node](#id8)
-    * [8.1. Controladores y Rutas en Node](#id8.1)
+    * [8.1 Controladores y Rutas en Node](#id8.1)
+    * [8.2 Método para guardar nuevos documentos en la BBDD](#id8.2)
+    * [8.3 Listar Proyectos del Portafolio](#id8.3)
+    * [8.4 Devolver listado de proyectos](#id8.4)
+    * [8.5 Actualizar Datos](#id8.5)
+    * [8.6 Borrar Proyectos](#id8.6)
 
-
+9. [Subir archivos en NodeJS](#id9)
+    * [9.1 Subir imágenes](#id9.1)
+    * [9.2 Mejoras en la subida de archivos](#id9.2)
+    * [9.3 Configurar cabeceras HTTP y acceso CORS en NodeJS](#id9.3)
 
 ## 0. Node.js: JavaScript en el servidor
 
@@ -693,6 +701,146 @@ app.use('/api', project_routes);
 
 ![postman5](img/Postman5.png)
 
-## 9. <a name="id9"></a>
-## 10. <a name="id10"></a>
-## 11.  <a name="id11"></a>
+
+### 8.2. Método para guardar nuevos documentos en la BBDD <a name="id8.2"></a>
+
+Creamos el método saveProject en nuestro controlador
+    * Primero debo importar mi modelo
+    * Creo la ruta '/save-project' en 'routes/project.js'
+    * Creamos un nuevo objeto a partir de nuestro modelo: 'var Project = new Project();'
+        * Vamos a poder dar diferentes valores a las propiedades del modelo hereda este nuevo objeto
+            * Para esto recojo los parámetros que me llegan por el body de la petición
+            * Comprobamos el correcto funcionamiento haciendo un post y asignando valores por POSTMAN
+
+
+**controllers/projects.js**
+
+```js
+var Project = require('../models/project')
+//...
+
+var controller = {
+//...
+
+    saveProject: function (req, res){
+        var project = new Project(); //para crear un nuevo objeto en base a nuestro modelo
+        var params = req.body;
+
+        return res.status(200).send({
+            params: params, //me va a devolver los parámetros que le pase por el método POST en Postman en su ruta 'api/save-project'
+            message: 'Soy el método save-project'
+        })
+
+    }
+};
+//...
+```
+![Postman](img/Postman6.png)
+
+Una vez comprobado que el método saveProject funciona correctamente:
+    * especifico los parámetros del modelo que quiero recoger:
+    * creo el parámetro image en mi modelo, dando el valor null (luego añadiremos valor)
+    * En el return pido que me devuelva project, es decir, un json con todos las propiedades.
+    * Paso por postman valores de todas las propiedades de mi modelo haciendo un POST
+
+```js
+var Project = require('../models/project')
+//...
+
+var controller = {
+//...
+ saveProject: function (req, res){
+        var project = new Project(); //para crear un nuevo objeto en base a nuestro modelo
+
+        var params = req.body;
+
+        project.name = params.name;
+        project.description = params.description;
+        project.category = params.category;
+        project.year = params.year;
+        project.langs = params.langs;
+        project.image = null; //luego añadiremos la lógica de la imagen
+
+        return res.status(200).send({
+
+            project: project,
+
+            //params: params, //me va a devolver los parámetros que le pase por el método POST en Postman en su ruta 'api/save-project'
+
+            message: 'Soy el método save-project'
+        })
+
+    }
+};
+//...
+```
+
+![Postman](img/Postman7.png)
+
+* Vemos que además de los campos que le he pasado por POSTMAN me ha devuelto un id de objeto
+* Para guardar todos estos datos se puede hacer con el método save al tener el ORM de mongoose
+
+**Nota**: 
+* Error 500 ErrInternal server error, es un código de estado HTTP muy general que significa que algo ha ido mal en el servidor del sitio web, pero el servidor no puede ser más específico sobre cuál es el problema exacto.
+* Error 404 es un código de estado que se envía desde el servidor web al navegador, o sea, al usuario que intentaba entrar en dicha página. Básicamente, lo que indica este error es que se trata de un enlace roto, defectuoso o que ya no existe y que, por lo tanto, no es posible navegar por él.
+* Status 200 El código de respuesta de estado satisfactorio HTTP 200 OK indica que la solicitud ha tenido éxito. Una respuesta 200 es almacenable de forma predeterminada. El significado de un éxito depende del método de solicitud HTTP: GET : El recurso ha sido recuperado y se transmite el mensaje al body. 
+
+**controller/project.js**
+```js
+var Project = require('../models/project')
+//...
+
+var controller = {
+//...
+    saveProject: function (req, res){
+        var project = new Project(); //para crear un nuevo objeto en base a nuestro modelo
+
+        var params = req.body;
+
+        project.name = params.name;
+        project.description = params.description;
+        project.category = params.category;
+        project.year = params.year;
+        project.langs = params.langs;
+        project.image = null; //luego añadiremos la lógica de la imagen
+
+        project.save((err, projectStored) => {
+            if(err) return res.status(500).send({message:'Error al guardar el documento.'});
+
+            if(!projectStored) return res.status(404).send({message: 'Nose ha podido guardar el proyecto'});
+
+            return res.status(200).send({project: projectStored});
+        })
+/* Al haber incorporado un status 200 con la funcionalidad de guardar a mi código quito este código de pruebas
+        return res.status(200).send({
+
+            project: project,
+
+            //params: params, //me va a devolver los parámetros que le pase por el método POST en Postman en su ruta 'api/save-project'
+
+            message: 'Soy el método save-project'
+        })
+*/
+    }
+};
+```
+
+
+Hacemos un nuevo Post a con Postman para comprobar que se guarda
+
+![Postman](img/Postman8.png)
+
+Comprobamos en Robo3t
+![Robo3t](img/Robo3T2.png)
+
+Nota: el parámetro "__v: 0" es para hacer diferentes versiones de un documento en mongoDB. Es una función que no se usa mucho.
+
+
+### 8.3 <a name="id8.3"></a>
+### 8.4 <a name="id8.4"></a>
+### 8.5  <a name="id8.5"></a>
+### 8.6  <a name="id8.6"></a>
+## 9  <a name="id9"></a>
+### 9.1  <a name="id9.1"></a>
+### 9.2  <a name="id9.2"></a>
+### 9.3  <a name="id9.3"></a>
