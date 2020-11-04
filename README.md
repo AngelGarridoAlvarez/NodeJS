@@ -61,7 +61,7 @@ Todo el contenido ha sido modificado para facilitar su comprensión, y en muchos
     * escribir en el terminal 'node 01_helloWorld.js'
     
     * La consola debería mostrar:
-    ![img](src/Captura2020-07-31-11-09-44.png)
+    ![img](node_scripts/src/Captura2020-07-31-11-09-44.png)
     
   Esto significa que estamos lanzando scripts directamente en nuestro S.O. que antes de nodejs solo se podían ejecutar a través del navegador.
     
@@ -104,11 +104,11 @@ Todo el contenido ha sido modificado para facilitar su comprensión, y en muchos
    ```
 3. ejecutamos en el terminal 'node 02_crearArchivo.js'
 
-![img](src/Captura2020-07-31-13-07-23.png)
+![img](node_scripts/src/Captura2020-07-31-13-07-23.png)
 
 Vemos como se ha creado el archivo en la ruta especificada
 
-![img](src/Captura2020-07-31-13-18-06.png)
+![img](node_scripts/src/Captura2020-07-31-13-18-06.png)
 
 Gracias a esta herramienta podemos crear archivos de forma automática, esto abre muchas posibilidades en combinación con el uso de APIs externas.
 
@@ -166,7 +166,7 @@ server.listen(PORT, ()=>{
 
 Si marcamos en el terminal node 03_servidor.js y ponemos en nuestro navagador http://localhost:3000/ veremos el mesaje que se está lanzando desde el servidor que hemos creado:
 
-![img](src/Captura2020-07-31-15-56-46.png);
+![img](node_scripts/src/Captura2020-07-31-15-56-46.png);
 
 Ya tenemos un servidor que responde a nuestras peticiones abierto en node.js 💃
 
@@ -193,7 +193,7 @@ fs.readFile('jsonFiles/people.json', (err, data)=>{
 
 El código anterior fue modificado poniendo una ruta incorrecta para ver que sucedía en la consola al detectar un error, a continuación se puede ver la captura de pantalla de la consola con error y sin error:
 
-![img](src/Captura2020-07-31-16-31-06.png)
+![img](node_scripts/src/Captura2020-07-31-16-31-06.png)
 
 ## 5. Utilizar endpoints en el servidor con req.url<a name="id5"></a>
 * [05_endpoints.js](node_scripts/05_endpoints.js)
@@ -226,7 +226,7 @@ server.listen(PORT, () => {
     console.log(`Hello!!! Server started in http//localhost:${PORT}`);
 });
 ```
-![img](src/Captura2020-07-31-17-01-42.png)
+![img](node_scripts/src/Captura2020-07-31-17-01-42.png)
 
 Ya podemos usar endpoints con node.js!
 
@@ -836,7 +836,8 @@ Comprobamos en Robo3t
 Nota: el parámetro "__v: 0" es para hacer diferentes versiones de un documento en mongoDB. Es una función que no se usa mucho.
 
 
-### 8.3 <a name="id8.3"></a>
+### 8.3 Listar Proyectos del Portafolio <a name="id8.3"></a>
+
 ### 8.4 <a name="id8.4"></a>
 ### 8.5  <a name="id8.5"></a>
 ### 8.6  <a name="id8.6"></a>

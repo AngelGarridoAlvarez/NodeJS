@@ -59,5 +59,6 @@ app.post('/rutaPostConParam:id', (req,res) => {
 });
 
 
+
 // exportar
 module.exports = app;//exporto la variable app que tiene express y toda la configuración de los middleware
