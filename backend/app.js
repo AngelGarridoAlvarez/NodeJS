@@ -18,7 +18,13 @@ app.use(bodyParser.urlencoded({extended: false}));//configuración necesaria par
 app.use(bodyParser.json());//Lo que me llegue hay que convertirlo a JSON
 
 //CORS
-
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+    next();
+});
 //RUTAS
 
 app.use('/api', project_routes); //uso este middleware para añadir api/ a las rutas de project_routes
@@ -43,7 +49,10 @@ app.get('/', (req,res) => {
         "<li>localhost:"+ index.puerto + "/api/test - (post)</li>" +
         "<li>localhost:"+ index.puerto + "/api/save-project - (post)</li>" +
         "<li>localhost:"+ index.puerto + "/api/project/:id? - meter id de BBDD tipo  http://localhost:3700/api/project/5fa3ca554dec284908695fbd</li>" +
-        "<li>localhost:"+ index.puerto + "/api/projects</li>" +
+        "<li>localhost:"+ index.puerto + "/api/projects</li> - listado de proyectos" +
+        "<li>localhost:"+ index.puerto + "/api/project/:id</li> - (put) - actualizar proyectos" +
+        "<li>localhost:"+ index.puerto + "/api/project/:id</li> - (delete) borrar proyecto" +
+        "<li>localhost:"+ index.puerto + "/api/upload-image/:id</li> - (post) subir imagen" +
         "</ul>")
    });
 //Creamos una ruta para poder probar el método post

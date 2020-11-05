@@ -4,9 +4,10 @@
 // Podemos hacer un objeto json directamente o hacer funciones que nos devuelvan json
 //* En este caso hacemos un json que incorpora funciones dentro
 
-var Project = require('../models/project'); //Importo el modelo project para poder instanciarlo en el método saveProject()
+let Project = require('../models/project'); //Importo el modelo project para poder instanciarlo en el método saveProject()
+let fs = require('fs'); //librería de node que voy a utilizar para borrar archivos
 
-var controller = {
+let controller = {
 
     home: function (req, res) {
         return res.status(200).send({
@@ -77,9 +78,9 @@ var controller = {
             //Podríamos ordenar por año usando el método .sort()
             // *  Project.find({}).sort('year').exec((err, projects) - de menor a mayor
             // *  Project.find({}).sort('-year').exec((err, projects) - de mayor a menor
-            if(err) return res.status(500).send({message:'Error al devolver los datos.'});
+            if (err) return res.status(500).send({message: 'Error al devolver los datos.'});
 
-            if(!projects) return res.status(404).send({message: 'No hay proyectos que mostrar.'});
+            if (!projects) return res.status(404).send({message: 'No hay proyectos que mostrar.'});
 
             return res.status(200).send({projects});
         })
@@ -87,15 +88,15 @@ var controller = {
     },
     //Creamos el método updateProjects para actualizar proyectos
 
-    updateProject: function (req, res){
+    updateProject: function (req, res) {
         let projectId = req.params.id;
         let update = req.body;
 
-        Project.findByIdAndUpdate(projectId, update, {new:true}, (err, projectUpdated) => {
+        Project.findByIdAndUpdate(projectId, update, {new: true}, (err, projectUpdated) => {
             //{new:true} para que además de actualizar me devuelva el objeto actualizado cuándo haga el PUT
-            if(err) return res.status(500).send({message: 'Error al actualizar'});
+            if (err) return res.status(500).send({message: 'Error al actualizar'});
 
-            if(!projectUpdated) return  res.status(404).send({message: 'No existe el proyecto para actualizar'});
+            if (!projectUpdated) return res.status(404).send({message: 'No existe el proyecto para actualizar'});
 
             return res.status(200).send({
                 project: projectUpdated
@@ -103,18 +104,60 @@ var controller = {
         });
     },
 
-    deleteProject: function (req, res){
+    deleteProject: function (req, res) {
         let projectId = req.params.id;
 
         Project.findByIdAndDelete(projectId, (err, projectRemoved) => {
-            if(err) return res.status(500).send({message: 'No se ha podido borrar el proyecto'});
+            if (err) return res.status(500).send({message: 'No se ha podido borrar el proyecto'});
 
-            if(!projectRemoved) return res.status(404).send({message: "No se puede eliminar ese projecto"});
+            if (!projectRemoved) return res.status(404).send({message: "No se puede eliminar ese projecto"});
 
             return res.status(200).send({
                 project: projectRemoved
             });
         });
+    },
+
+    //Creamos un método para subir imágenes
+    //Hemos tenido que instalar previamente connect-multiparty
+
+    uploadImage: function (req, res) {
+        let projectId = req.params.id;
+        let fileName = 'Imagen no subida...';
+
+        if (req.files) {
+            let filePath = req.files.image.path;//guardamos la ruta del archivo que subimos
+            let fileSplit = filePath.split('\\'); //nombre real del archivo que se ha guardado
+            let fileName = fileSplit[1];
+            let extSplit = fileName.split('\.'); //nos corta a partir del punto, y así obtenemos el nombre de la extensión
+            let fileExt = extSplit[1];
+
+            //Si el archivo tiene una de las extensiones que digo, entonces puede guardarlo en la BBDD:
+            if(fileExt == 'png' || fileExt == 'jpg' || fileExt == 'jpeg' || fileExt == 'gif'){
+
+                Project.findByIdAndUpdate(projectId, {image:fileName}, {new: true}, (err, projectUpdated) =>{
+                    if(err) return res.status(500).send({message: 'La imagen no se ha subido'});
+
+                    if(!projectUpdated) return  res.status(404).send({message: 'El proyecto no existe y no se ha asignado la imagen'})
+
+                    return res.status(200).send({
+                        project: projectUpdated
+                    });
+                });
+
+            }else{ //Si no tiene esas extensiones borro el archivo
+                fs.unlink(filePath, (err) => {
+                   return res.status(200).send({message: 'La extensión no es valida'});
+                });
+            }
+
+
+
+        }else{
+            return res.status(200).send({
+                message: fileName
+            });
+        };
     },
 
 };
