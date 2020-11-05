@@ -1156,3 +1156,4 @@ app.use((req, res, next) => {
     next();
 });
 ```
+En nuestro caso añadimos el middleware en **backend/app.js**
