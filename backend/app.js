@@ -33,7 +33,18 @@ app.get('/test', (req,res) => {
 });
 
 app.get('/', (req,res) => {
-    res.status(200).send("<h1>Pagina de inicio, prueba la ruta localhost:"+ index.puerto + "/test</h1>")
+    res.status(200).send("<h1>Pagina de inicio, prueba las siguientes rutas:</h1>" +
+        "<ul>" +
+        "<li>localhost:"+ index.puerto + "/test</li>" +
+        "<li>localhost:"+ index.puerto + "/api</li>" +
+        "<li>localhost:"+ index.puerto + "/rutaPost - (post)</li>" +
+        "<li>localhost:"+ index.puerto + "/rutaPostConParam:id - (post)</li>" +
+        "<li>localhost:"+ index.puerto + "/api/home</li>" +
+        "<li>localhost:"+ index.puerto + "/api/test - (post)</li>" +
+        "<li>localhost:"+ index.puerto + "/api/save-project - (post)</li>" +
+        "<li>localhost:"+ index.puerto + "/api/project/:id? - meter id de BBDD tipo  http://localhost:3700/api/project/5fa3ca554dec284908695fbd</li>" +
+        "<li>localhost:"+ index.puerto + "/api/projects</li>" +
+        "</ul>")
    });
 //Creamos una ruta para poder probar el método post
 
