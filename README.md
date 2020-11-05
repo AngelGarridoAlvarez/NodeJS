@@ -838,10 +838,321 @@ Nota: el parámetro "__v: 0" es para hacer diferentes versiones de un documento 
 
 ### 8.3 Listar Proyectos del Portafolio <a name="id8.3"></a>
 
-### 8.4 <a name="id8.4"></a>
-### 8.5  <a name="id8.5"></a>
-### 8.6  <a name="id8.6"></a>
-## 9  <a name="id9"></a>
-### 9.1  <a name="id9.1"></a>
-### 9.2  <a name="id9.2"></a>
-### 9.3  <a name="id9.3"></a>
+Creamos el método getProject
+
+**controller/project.js**
+```js
+var Project = require('../models/project')
+//...
+
+var controller = {
+//...
+getProject: function (req, res){
+        let projectId = req.params.id;
+
+        if(projectId == null) return res.status(404).send({message: 'El proyecto no existe.'});
+
+
+        Project.findById(projectId, (err, project) => {
+
+            if(err) return  res.status(500).send({message: 'Error al devolver los datos.'});
+
+            if(!project) return res.status(404).send({message: 'El proyecto no existe.'});
+
+            return res.status(200).send({
+                project
+            });
+        });
+    }
+};
+```
+
+
+También creamos su ruta **api/project/:id?**
+* Para probar esta ruta tenemos que introducir la id de nuestra BBDD de robomongo 
+* Por ejemplo: http://localhost:3700/api/project/5fa3ca554dec284908695fbd
+
+**routes/project.js**
+```js
+var express = require('express'); //Cargo el módulo de express para crear mis propias rutas
+var ProjectController = require('../controllers/project') //Cargo el controlador que me he hecho
+
+var router = express.Router(); //Cargo este servicio de express que me sirve tiene diferentes métodos para acceder a las rutas
+//...
+router.get('/project/:id?', ProjectController.getProject);//Poniendo la interrogación hago que el parámetro que le paso por la url id sea opcional
+
+
+module.exports = router; //exporto router para poder utilizar mi configuración de rutas fuera de aquí
+```
+
+
+### 8.4 Devolver listado de Proyectos <a name="id8.4"></a>
+
+Creamos algún proyecto más usando Postman y el método creado recientemente save-project:
+![postman9](img/Postman9.png)
+
+![robo3T3](img/Robo3T3.png)
+
+Creamos un método getProjects que nos pueda listar todos estos proyectos de la BBDD:
+
+**controller/project.js**
+```js
+var Project = require('../models/project')
+//...
+
+var controller = {
+//...
+ getProjects: function (req, res) {
+
+        Project.find({}).exec((err, projects) => { //Dentro de find podríamos poner condiciones para filtrar tipo Project.find({year: 2019})
+ //Podríamos ordenar por año usando el método .sort()
+            // *  Project.find({}).sort('year').exec((err, projects) - de menor a mayor
+            // *  Project.find({}).sort('-year').exec((err, projects) - de mayor a menor
+            if(err) return res.status(500).send({message:'Error al devolver los datos.'});
+
+            if(!projects) return res.status(404).send({message: 'No hay proyectos que mostrar.'});
+
+            return res.status(200).send({projects});
+        })
+
+    }
+};
+```
+
+
+También creamos su ruta correspondiente **api/projects**
+
+
+**routes/project.js**
+```js
+var express = require('express'); //Cargo el módulo de express para crear mis propias rutas
+var ProjectController = require('../controllers/project') //Cargo el controlador que me he hecho
+
+var router = express.Router(); //Cargo este servicio de express que me sirve tiene diferentes métodos para acceder a las rutas
+//...
+router.get('/projects', ProjectController.getProjects);//Poniendo la interrogación hago que el parámetro que le paso por la url id sea opcional
+
+module.exports = router; //exporto router para poder utilizar mi configuración de rutas fuera de aquí
+```
+
+### 8.5  Actualizar Datos - .findByIdAndUpdate() <a name="id8.5"></a>
+
+Creamos el método updateProjects para actualizar proyectos usando el método de mongoose .findByIdAndUpdate()
+
+**controller/project.js**
+```js
+var Project = require('../models/project')
+//...
+
+var controller = {
+//...
+    updateProject: function (req, res){
+            let projectId = req.params.id;
+            let update = req.body;
+    
+            Project.findByIdAndUpdate(projectId, update, {new:true}, (err, projectUpdated) => {
+                //{new:true} para que además de actualizar me devuelva el objeto actualizado cuándo haga el PUT
+                if(err) return res.status(500).send({message: 'Error al actualizar'});
+    
+                if(!projectUpdated) return  res.status(404).send({message: 'No existe el proyecto para actualizar'});
+    
+                return res.status(200).send({
+                    project: projectUpdated
+            });
+        });
+    },
+};
+```
+
+
+También creamos su ruta correspondiente  **api/project:id**
+
+
+**routes/project.js**
+```js
+var express = require('express'); //Cargo el módulo de express para crear mis propias rutas
+var ProjectController = require('../controllers/project') //Cargo el controlador que me he hecho
+
+var router = express.Router(); //Cargo este servicio de express que me sirve tiene diferentes métodos para acceder a las rutas
+//...
+router.put('/project/:id', ProjectController.updateProject); 
+//al no poner ? en la ruta el parámetro project/:id es obligatorio
+
+module.exports = router; //exporto router para poder utilizar mi configuración de rutas fuera de aquí
+```
+
+Haciendo un put en postman y eligiendo la id podemos cambiar los parámetros:
+* http://localhost:3700/api/project/5fa3d48e02398d279039b51c
+
+![Postman10](img/Postman10.png)
+
+### 8.6  Borrar Proyectos - findByIdAndDelete() <a name="id8.6"></a>
+
+Creamos el método deleteProject para borrar proyectos usando el método de mongoose findByIdAndDelete()
+
+**controller/project.js**
+```js
+var Project = require('../models/project')
+//...
+
+var controller = {
+//...
+    deleteProject: function (req, res){
+        let projectId = req.params.id;
+
+        Project.findByIdAndDelete(projectId, (err, projectRemoved) => {
+            if(err) return res.status(500).send({message: 'No se ha podido borrar el proyecto'});
+
+            if(!projectRemoved) return res.status(404).send({message: "No se puede eliminar ese projecto"});
+
+            return res.status(200).send({
+                project: projectRemoved
+            });
+        });
+    },
+};
+```
+
+
+También creamos su ruta correspondiente, que será la misma que update y la de get pero usando delete  **api/project:id**
+
+
+**routes/project.js**
+```js
+var express = require('express'); //Cargo el módulo de express para crear mis propias rutas
+var ProjectController = require('../controllers/project') //Cargo el controlador que me he hecho
+
+var router = express.Router(); //Cargo este servicio de express que me sirve tiene diferentes métodos para acceder a las rutas
+//...
+router.delete('/project/:id', ProjectController.deleteProject);
+
+module.exports = router; //exporto router para poder utilizar mi configuración de rutas fuera de aquí
+```
+
+## 9 Subir Archivos a NodeJS <a name="id9"></a>
+
+### 9.1  Subir Imágenes - connect-multiparty<a name="id9.1"></a>
+Hemos tenido que instalar previamente connect-multiparty
+* npm install connect-multiparty --save
+
+
+Creamos el método upLoadImage
+
+**controller/project.js**
+```js
+//...
+uploadImage: function (req, res) {
+        let projectId = req.params.id;
+        let fileName = 'Imagen no subida...';
+
+        if (req.files) {
+            let filePath = req.files.image.path;//guardamos la ruta del archivo que subimos
+            let fileSplit = filePath.split('\\'); //nombre real del archivo que se ha guardado
+            let fileName = fileSplit[1];
+
+            Project.findByIdAndUpdate(projectId, {image:fileName}, {new: true}, (err, projectUpdated) =>{
+                if(err) return res.status(500).send({message: 'La imagen no se ha subido'});
+
+                if(!projectUpdated) return  res.status(404).send({message: 'El proyecto no existe y no se ha asignado la imagen'})
+
+                return res.status(200).send({
+                    project: projectUpdated
+                });
+            });
+
+        }else{
+            return res.status(200).send({
+                message: fileName
+            });
+        };
+    },
+};
+```
+
+
+También creamos su ruta correspondiente **/api/upload-image/:id:**
+* Creamos un middleware (se ejecuta antes del controlador) para poder subir imágenes usando el método connect-multiparty
+
+
+**routes/project.js**
+```js
+//...
+var multipart = require('connect-multiparty');//* Creamos un middleware (se ejecuta antes del controlador) para poder subir imágenes usando el método connect-multiparty
+var multipartMiddleware = multipart({uploadDir: './uploads'});//Carpeta en la que se van a guardar mis archivos y que tengo que crear
+//...
+router.post('/upload-image/:id', multipartMiddleware, ProjectController.uploadImage);//Ruta para subir imágenes - hemos tenido que instalar previamente connect-multiparty
+```
+Ahora por postman cargamos la imagen que queremos por el método post:
+
+![Postman11](img/Postman11.png)
+
+![Postman12](img/Postman12.png)
+
+### 9.2  Mejoras en la subida de archivos <a name="id9.2"></a>
+
+Vamos a comprobar que la extensión del archivo es correcta, y que si no es correcta que se borre el archivo del blog
+
+**controller/project.js**
+```js
+//...
+let fs = require('fs'); //librería de node que voy a utilizar para borrar archivos
+//...
+uploadImage: function (req, res) {
+        let projectId = req.params.id;
+        let fileName = 'Imagen no subida...';
+
+        if (req.files) {
+            let filePath = req.files.image.path;//guardamos la ruta del archivo que subimos
+            let fileSplit = filePath.split('\\'); //nombre real del archivo que se ha guardado
+            let fileName = fileSplit[1];
+            let extSplit = fileName.split('\.'); //nos corta a partir del punto, y así obtenemos el nombre de la extensión
+            let fileExt = extSplit[1];
+
+            //Si el archivo tiene una de las extensiones que digo, entonces puede guardarlo en la BBDD:
+            if(fileExt == 'png' || fileExt == 'jpg' || fileExt == 'jpeg' || fileExt == 'gif'){
+
+                Project.findByIdAndUpdate(projectId, {image:fileName}, {new: true}, (err, projectUpdated) =>{
+                    if(err) return res.status(500).send({message: 'La imagen no se ha subido'});
+
+                    if(!projectUpdated) return  res.status(404).send({message: 'El proyecto no existe y no se ha asignado la imagen'})
+
+                    return res.status(200).send({
+                        project: projectUpdated
+                    });
+                });
+
+            }else{ //Si no tiene esas extensiones borro el archivo
+                fs.unlink(filePath, (err) => {
+                   return res.status(200).send({message: 'La extensión no es valida'});
+                });
+            }
+
+
+
+        }else{
+            return res.status(200).send({
+                message: fileName
+            });
+        };
+    },
+
+};
+```
+
+### 9.3  Configurar headers y acceso CORS en NodeJS <a name="id9.3"></a>
+
+El Intercambio de Recursos de Origen Cruzado (CORS) es un mecanismo que utiliza cabeceras HTTP adicionales para permitir que un user agent obtenga permiso para acceder a recursos seleccionados desde un servidor, en un origen distinto (dominio) al que pertenece.
+
+Cuando hacemos peticiones AJAX con jQuery o Angular a un backend o un API REST es normal que tengamos problemas con el acceso CORS en NodeJS y nos fallen las peticiones.
+
+Para eso podemos crear un middleware como este:
+```js
+// Configurar cabeceras y cors
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');//En lugar de * tendremos que publicar la URL permitida o los origenes permitidos
+    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+    next();
+});
+```
